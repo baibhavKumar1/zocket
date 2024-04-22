@@ -1,9 +1,12 @@
 import './App.css'
+import CanvasComponent from './Components/Editor'
 
 function App() {
   return (
     <>
-      <div>Zocket</div>
+      <div>
+        <CanvasComponent/>
+        </div>
     </>
   )
 }
