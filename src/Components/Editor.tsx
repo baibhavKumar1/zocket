@@ -4,6 +4,7 @@ import { SketchPicker } from 'react-color'
 interface colorData {
     hex: string
 }
+
 const CanvasComponent: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [captionText, setCaptionText] = useState<string>('1 & 2 BHK Luxury Apartments at just Rs.34.97 Lakhs');
@@ -24,7 +25,8 @@ const CanvasComponent: React.FC = () => {
 
     const openEyeDropper = async (): Promise<void> => {
         if ("EyeDropper" in window) {
-            const eyeDropper = new window.EyeDropper();
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const eyeDropper = new (window as any).EyeDropper();
             const { sRGBHex } = await eyeDropper.open();
             setBackgroundColor(sRGBHex);
         }
@@ -91,14 +93,6 @@ const CanvasComponent: React.FC = () => {
             50
         );
 
-        // canvasObj.drawMaskStroke(
-        //     templateData.urls.stroke,
-        //     templateData.image_mask.x,
-        //     templateData.image_mask.y,
-        //     templateData.image_mask.width,
-        //     templateData.image_mask.height
-        // );
-
         if (selectedImage) {
             canvasObj.drawImageWithinMask(
                 selectedImage,
@@ -136,12 +130,12 @@ const CanvasComponent: React.FC = () => {
     return (
         <div className='flex justify-around h-screen gap-5'>
             <div className='w-1/2 bg-gray-200 flex-1 flex'>
-            <canvas
-                ref={canvasRef}
-                width={1080}
-                height={1080}
-                className='w-[400px] h-[400px] m-auto '
-            ></canvas>
+                <canvas
+                    ref={canvasRef}
+                    width={1080}
+                    height={1080}
+                    className='w-[400px] h-[400px] m-auto '
+                ></canvas>
             </div>
             <div className='border m-4 rounded border-black flex flex-col items-start w-1/2 p-4 space-y-4'>
                 <div>
@@ -192,8 +186,6 @@ const CanvasComponent: React.FC = () => {
                 </div>
                 <div>
                     <label>Text Color:</label>
-                    {/* <SketchPicker color={ctaTextColor} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                        setCTATextColor(e.target.value)}} /> */}
                     <input type="color" value={ctaTextColor} onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                         setCTATextColor(e.target.value);
                     }} />
@@ -240,12 +232,13 @@ const CanvasComponent: React.FC = () => {
                                     }}
                                     className="fixed top-0 left-0 bottom-0 right-0 z-0"
                                 />
+
                                 <SketchPicker color={backgroundColor} onChange={handleChangeComplete} />
                                 <div
-                                    className="w-full border-2 bg-white border-slate-300 h-10 font-mono text-xs font-bold text-center pt-2 cursor-pointer z-20 absolute"
+                                    className="w-full border-2 bg-white border-slate-300 h-10 text-xs font-medium text-center pt-2 cursor-pointer z-20 absolute"
                                     onClick={openEyeDropper}
                                 >
-                                    Pick color from this page
+                                    Pick color
                                 </div>
                             </div>
                         )}
